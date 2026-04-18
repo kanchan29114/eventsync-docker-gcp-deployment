@@ -23,7 +23,6 @@ public class CollaborationService {
     private final EventMemberRepository eventMemberRepository;
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
-    private final EmailService emailService;
     private final ActivityLogService activityLogService;
 
     public InviteResponse inviteUser(Long eventId, InviteRequest request) {
@@ -54,15 +53,6 @@ public class CollaborationService {
         member = eventMemberRepository.save(member);
 
         activityLogService.logActivity(eventId, inviter.getName() + " invited " + targetUser.getName(), inviter.getName());
-
-        // Send invitation email (non-blocking — won't crash if email fails)
-        emailService.sendInvitationEmail(
-                targetUser.getEmail(),
-                targetUser.getName(),
-                inviter.getName(),
-                event.getTitle(),
-                member.getId()
-        );
 
         return mapToResponse(member);
     }
@@ -178,5 +168,3 @@ public class CollaborationService {
         );
     }
 }
-
-
