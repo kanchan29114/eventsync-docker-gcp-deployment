@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,  // 🔥 THIS IS THE FIX
+  baseURL: "https://eventsync-backend-tnji.onrender.com",
 });
 
 api.interceptors.request.use((config) => {
